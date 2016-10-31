@@ -49,9 +49,9 @@ var Splitter = exports.Splitter = function (_Component) {
     var otherElement = node.nextSibling;
 
     if (this.props.type === 'row') {
-      resizableElement.style.maxWidth = resizableElement.clientWidth + otherElement.clientWidth;
+      resizableElement.style.maxWidth = resizableElement.clientWidth + otherElement.clientWidth + 'px';
     } else {
-      resizableElement.style.maxHeight = resizableElement.clientHeight + otherElement.clientHeight;
+      resizableElement.style.maxHeight = resizableElement.clientHeight + otherElement.clientHeight + 'px';
     }
 
     this.setState({
@@ -88,13 +88,13 @@ var Splitter = exports.Splitter = function (_Component) {
     if (type === 'column') {
       var newHeight = Math.max(0, Math.min(parseInt(this.state.resizableElement.style.maxHeight, 10), clientY - top - parseInt(clientHeight, 10) / 2));
       var newOtherHeight = parseInt(this.state.resizableElement.style.maxHeight, 10) - newHeight;
-      this.state.resizableElement.style.height = newHeight;
-      this.state.otherElement.style.height = newOtherHeight;
+      this.state.resizableElement.style.height = newHeight + 'px';
+      this.state.otherElement.style.height = newOtherHeight + 'px';
     } else {
       var newWidth = Math.max(0, Math.min(parseInt(this.state.resizableElement.style.maxWidth, 10), clientX - left - parseInt(clientWidth, 10) / 2));
       var newOtherWidth = parseInt(this.state.resizableElement.style.maxWidth, 10) - newWidth;
-      this.state.resizableElement.style.width = newWidth;
-      this.state.otherElement.style.width = newOtherWidth;
+      this.state.resizableElement.style.width = newWidth + 'px';
+      this.state.otherElement.style.width = newOtherWidth + 'px';
     }
   };
 
