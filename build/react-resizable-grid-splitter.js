@@ -74,38 +74,48 @@ var Splitter = exports.Splitter = function (_Component) {
   Splitter.prototype.onMouseMove = function onMouseMove(_ref) {
     var clientX = _ref.clientX,
         clientY = _ref.clientY;
+    var _state = this.state,
+        resizableElement = _state.resizableElement,
+        otherElement = _state.otherElement;
 
-    var _state$resizableEleme = this.state.resizableElement.getBoundingClientRect(),
-        top = _state$resizableEleme.top,
-        left = _state$resizableEleme.left;
+    var _resizableElement$get = resizableElement.getBoundingClientRect(),
+        top = _resizableElement$get.top,
+        left = _resizableElement$get.left;
 
-    var type = this.props.type;
+    var _props = this.props,
+        type = _props.type,
+        change = _props.change;
 
     var _ReactDOM$findDOMNode = _reactDom2.default.findDOMNode(this),
         clientHeight = _ReactDOM$findDOMNode.clientHeight,
-        clientWidth = _ReactDOM$findDOMNode.clientWidth;
+        clientWidth = _ReactDOM$findDOMNode.clientWidth,
+        parentNode = _ReactDOM$findDOMNode.parentNode;
 
     if (type === 'column') {
-      var newHeight = Math.max(0, Math.min(parseInt(this.state.resizableElement.style.maxHeight, 10), clientY - top - parseInt(clientHeight, 10) / 2));
-      var newOtherHeight = parseInt(this.state.resizableElement.style.maxHeight, 10) - newHeight;
-      this.state.resizableElement.style.height = newHeight + 'px';
-      this.state.otherElement.style.height = newOtherHeight + 'px';
+      var newHeight = Math.max(0, Math.min(parseInt(resizableElement.style.maxHeight, 10), clientY - top - parseInt(clientHeight, 10) / 2));
+      var newOtherHeight = parseInt(resizableElement.style.maxHeight, 10) - newHeight;
+      resizableElement.style.height = newHeight + 'px';
+      otherElement.style.height = newOtherHeight + 'px';
     } else {
-      var newWidth = Math.max(0, Math.min(parseInt(this.state.resizableElement.style.maxWidth, 10), clientX - left - parseInt(clientWidth, 10) / 2));
-      var newOtherWidth = parseInt(this.state.resizableElement.style.maxWidth, 10) - newWidth;
-      this.state.resizableElement.style.width = newWidth + 'px';
-      this.state.otherElement.style.width = newOtherWidth + 'px';
+      var newWidth = Math.max(0, Math.min(parseInt(resizableElement.style.maxWidth, 10), clientX - left - parseInt(clientWidth, 10) / 2));
+      var newOtherWidth = parseInt(resizableElement.style.maxWidth, 10) - newWidth;
+      resizableElement.style.width = newWidth + 'px';
+      otherElement.style.width = newOtherWidth + 'px';
+    }
+
+    if (typeof change === 'function') {
+      change(parentNode);
     }
   };
 
   Splitter.prototype.render = function render() {
     var _extends2;
 
-    var _props = this.props,
-        type = _props.type,
-        _props$className = _props.className,
-        className = _props$className === undefined ? '' : _props$className,
-        style = _props.style;
+    var _props2 = this.props,
+        type = _props2.type,
+        _props2$className = _props2.className,
+        className = _props2$className === undefined ? '' : _props2$className,
+        style = _props2.style;
 
     var splitterClass = type === 'row' ? 'vertical-splitter' : 'horizontal-splitter';
 
@@ -124,5 +134,6 @@ var Splitter = exports.Splitter = function (_Component) {
 Splitter.propTypes = {
   type: _react.PropTypes.string,
   className: _react.PropTypes.string,
-  style: _react.PropTypes.object
+  style: _react.PropTypes.object,
+  change: _react.PropTypes.func
 };
