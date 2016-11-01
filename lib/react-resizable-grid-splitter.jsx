@@ -47,26 +47,31 @@ export class Splitter extends Component {
   }
 
   onMouseMove({ clientX, clientY }) {
-    const { top, left } = this.state.resizableElement.getBoundingClientRect();
-    const { type } = this.props;
-    const { clientHeight, clientWidth } = ReactDOM.findDOMNode(this);
+    const { resizableElement, otherElement } = this.state;
+    const { top, left } = resizableElement.getBoundingClientRect();
+    const { type, change } = this.props;
+    const { clientHeight, clientWidth, parentNode } = ReactDOM.findDOMNode(this);
 
     if (type === 'column') {
       const newHeight = Math.max(0, Math.min(
-        parseInt(this.state.resizableElement.style.maxHeight, 10),
+        parseInt(resizableElement.style.maxHeight, 10),
         clientY - top - parseInt(clientHeight, 10) / 2
       ));
-      const newOtherHeight = parseInt(this.state.resizableElement.style.maxHeight, 10) - newHeight;
-      this.state.resizableElement.style.height = `${newHeight}px`;
-      this.state.otherElement.style.height = `${newOtherHeight}px`;
+      const newOtherHeight = parseInt(resizableElement.style.maxHeight, 10) - newHeight;
+      resizableElement.style.height = `${newHeight}px`;
+      otherElement.style.height = `${newOtherHeight}px`;
     } else {
       const newWidth = Math.max(0, Math.min(
-        parseInt(this.state.resizableElement.style.maxWidth, 10),
+        parseInt(resizableElement.style.maxWidth, 10),
         clientX - left - parseInt(clientWidth, 10) / 2
       ));
-      const newOtherWidth = parseInt(this.state.resizableElement.style.maxWidth, 10) - newWidth;
-      this.state.resizableElement.style.width = `${newWidth}px`;
-      this.state.otherElement.style.width = `${newOtherWidth}px`;
+      const newOtherWidth = parseInt(resizableElement.style.maxWidth, 10) - newWidth;
+      resizableElement.style.width = `${newWidth}px`;
+      otherElement.style.width = `${newOtherWidth}px`;
+    }
+
+    if (typeof change === 'function') {
+      change(parentNode);
     }
   }
 
@@ -93,4 +98,5 @@ Splitter.propTypes = {
   type: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.object,
+  change: PropTypes.func,
 };
