@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
+import classNames from 'classnames';
 
 export class Splitter extends Component {
   constructor(props) {
@@ -8,6 +9,7 @@ export class Splitter extends Component {
     this.state = {
       resizableElement: null,
       otherElement: null,
+      active: false,
     };
 
     this.onMouseDown = this.onMouseDown.bind(this);
@@ -32,6 +34,7 @@ export class Splitter extends Component {
     this.setState({
       resizableElement,
       otherElement,
+      active: true,
     });
   }
 
@@ -44,6 +47,10 @@ export class Splitter extends Component {
     } else {
       this.state.resizableElement.style.maxHeight = '';
     }
+
+    this.setState({
+      active: false,
+    });
   }
 
   onMouseMove({ clientX, clientY }) {
@@ -77,15 +84,20 @@ export class Splitter extends Component {
 
   render () {
     const { type, className = '', style } = this.props;
-    const splitterClass = (type === 'row') ? 'vertical-splitter' : 'horizontal-splitter';
+    const { active } = this.state;
+    const classes = classNames(
+      `${type === 'row' ? 'vertical' : 'horizontal'}-splitter`,
+      className,
+      { active }
+    );
 
     return (
       <div
-        className={`${splitterClass} ${className}`}
+        className={classes}
         style={{
           flex: '0 0 auto',
-          [(type === 'column') ? 'width' : 'height']: '100%',
-          cursor: (type === 'column') ? 'row-resize' : 'col-resize',
+          [type === 'column' ? 'width' : 'height']: '100%',
+          cursor: `${type === 'column' ? 'row' : 'col'}-resize`,
           ...style
         }}
         onMouseDown={this.onMouseDown}
