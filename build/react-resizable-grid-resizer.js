@@ -12,6 +12,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function Resizable(_ref) {
   var type = _ref.type,
+      className = _ref.className,
       style = _ref.style,
       children = _ref.children;
 
@@ -29,6 +30,7 @@ function Resizable(_ref) {
   return _react2.default.createElement(
     'div',
     {
+      className: className,
       style: _extends({
         display: 'flex',
         flexDirection: type,
@@ -43,6 +45,7 @@ function Resizable(_ref) {
 
 Resizable.propTypes = {
   type: _react.PropTypes.string,
+  className: _react.PropTypes.string,
   style: _react.PropTypes.object,
   children: _react.PropTypes.any
 };

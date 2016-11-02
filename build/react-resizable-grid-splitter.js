@@ -13,6 +13,10 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31,7 +35,8 @@ var Splitter = exports.Splitter = function (_Component) {
 
     _this.state = {
       resizableElement: null,
-      otherElement: null
+      otherElement: null,
+      active: false
     };
 
     _this.onMouseDown = _this.onMouseDown.bind(_this);
@@ -56,7 +61,8 @@ var Splitter = exports.Splitter = function (_Component) {
 
     this.setState({
       resizableElement: resizableElement,
-      otherElement: otherElement
+      otherElement: otherElement,
+      active: true
     });
   };
 
@@ -69,6 +75,10 @@ var Splitter = exports.Splitter = function (_Component) {
     } else {
       this.state.resizableElement.style.maxHeight = '';
     }
+
+    this.setState({
+      active: false
+    });
   };
 
   Splitter.prototype.onMouseMove = function onMouseMove(_ref) {
@@ -116,14 +126,15 @@ var Splitter = exports.Splitter = function (_Component) {
         _props2$className = _props2.className,
         className = _props2$className === undefined ? '' : _props2$className,
         style = _props2.style;
+    var active = this.state.active;
 
-    var splitterClass = type === 'row' ? 'vertical-splitter' : 'horizontal-splitter';
+    var classes = (0, _classnames2.default)((type === 'row' ? 'vertical' : 'horizontal') + '-splitter', className, { active: active });
 
     return _react2.default.createElement('div', {
-      className: splitterClass + ' ' + className,
+      className: classes,
       style: _extends((_extends2 = {
         flex: '0 0 auto'
-      }, _extends2[type === 'column' ? 'width' : 'height'] = '100%', _extends2.cursor = type === 'column' ? 'row-resize' : 'col-resize', _extends2), style),
+      }, _extends2[type === 'column' ? 'width' : 'height'] = '100%', _extends2.cursor = (type === 'column' ? 'row' : 'col') + '-resize', _extends2), style),
       onMouseDown: this.onMouseDown
     });
   };

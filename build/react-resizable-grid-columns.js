@@ -14,17 +14,19 @@ var _reactResizableGridResizer2 = _interopRequireDefault(_reactResizableGridResi
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function Columns(_ref) {
-  var style = _ref.style,
+  var className = _ref.className,
+      style = _ref.style,
       children = _ref.children;
 
   return _react2.default.createElement(
     _reactResizableGridResizer2.default,
-    { type: 'column', style: style },
+    { type: 'column', className: className, style: style },
     children
   );
 }
 
 Columns.propTypes = {
+  className: _react.PropTypes.string,
   style: _react.PropTypes.object,
   children: _react.PropTypes.any
 };
