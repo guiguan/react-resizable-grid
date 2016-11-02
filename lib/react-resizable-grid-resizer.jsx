@@ -1,6 +1,6 @@
 import React, { PropTypes, Children } from 'react';
 
-function Resizable({ type, style, children }) {
+function Resizable({ type, className, style, children }) {
 
   const childrenWithProps = Children.map(children, (child, idx) => {
     const props = { type };
@@ -14,6 +14,7 @@ function Resizable({ type, style, children }) {
 
   return (
     <div
+      className={className}
       style={{
         display: 'flex',
         flexDirection: type,
@@ -30,6 +31,7 @@ function Resizable({ type, style, children }) {
 
 Resizable.propTypes = {
   type: PropTypes.string,
+  className: PropTypes.string,
   style: PropTypes.object,
   children: PropTypes.any,
 };
